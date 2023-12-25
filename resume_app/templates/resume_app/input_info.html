@@ -1,0 +1,296 @@
+{% extends 'resume_app/base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h2 class="text-center mt-4 mb-4">Complete Your Profile</h2>
+
+    <form method="post" enctype="multipart/form-data" class="user-info-form">
+
+      {% csrf_token %}
+      
+
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="text-center mb-3 underline">Personal Information</h3>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="{{ user_info_form.first_name.id_for_label }}" class="form-label">First Name:</label>
+              {{ user_info_form.first_name }}
+            </div>
+            <div class="col-md-6">
+              <label for="{{ user_info_form.last_name.id_for_label }}" class="form-label">Last Name:</label>
+              {{ user_info_form.last_name }}
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="{{ user_info_form.email.id_for_label }}" class="form-label">Email:</label>
+              {{ user_info_form.email }}
+            </div>
+            <div class="col-md-6">
+              <label for="{{ user_info_form.phone_number.id_for_label }}" class="form-label">Phone Number:</label>
+              {{ user_info_form.phone_number }}
+            </div>
+          </div>
+
+          <!-- Add missing fields for UserInfo model -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="{{ user_info_form.address.id_for_label }}" class="form-label">Address:</label>
+              {{ user_info_form.address }}
+            </div>
+            <div class="col-md-6">
+              <label for="{{ user_info_form.city.id_for_label }}" class="form-label">City:</label>
+              {{ user_info_form.city }}
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="{{ user_info_form.post_code.id_for_label }}" class="form-label">Post Code:</label>
+              {{ user_info_form.post_code }}
+            </div>
+            <div class="col-md-6">
+              <label for="{{ user_info_form.linkedin_profile.id_for_label }}" class="form-label">LinkedIn Profile:</label>
+              {{ user_info_form.linkedin_profile }}
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="{{ user_info_form.portfolio_website.id_for_label }}" class="form-label">Portfolio Website:</label>
+              {{ user_info_form.portfolio_website }}
+            </div>
+            <div class="col-md-6">
+              <label for="{{ user_info_form.github_profile.id_for_label }}" class="form-label">GitHub Profile:</label>
+              {{ user_info_form.github_profile }}
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="{{ user_info_form.job_title.id_for_label }}" class="form-label">Job Title:</label>
+              {{ user_info_form.job_title }}
+            </div>
+            <div class="col-md-6">
+              <label for="{{ user_info_form.professional_summary.id_for_label }}" class="form-label">Professional Summary:</label>
+              {{ user_info_form.professional_summary }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% comment %} Education Formset {% endcomment %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="text-center mb-3 underline">Education</h3>
+          {{ education_formset.management_form }}
+          <div id="education-formset" class="mb-3">
+            {% for form in education_formset %}
+              <div class="formset-item">
+                {{ form.id }}
+                {{ form.as_table }}             
+              </div>
+            {% endfor %}
+          </div>
+          <button type="submit" name="action" value="add" id="add-education-form" class="btn btn-secondary">Update Education</button>
+        </div>
+      </div>
+
+      {% comment %} Experience Formset {% endcomment %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="text-center mb-3 underline">Experience</h3>
+          {{ experience_formset.management_form }}
+          <div id="experience-formset" class="mb-3">
+            {% for form in experience_formset %}
+              <div class="formset-item">
+                {{ form.id }}
+                {{ form.as_table }}              
+              </div>
+            {% endfor %}
+          </div>
+          <button type="submit" name="action" value="add" id="add-experience-form" class="btn btn-secondary">Update Experience</button>
+        </div>
+      </div>
+
+      {% comment %} Technical Skill Formset {% endcomment %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="text-center mb-3 underline">Technical Skills</h3>
+          {{ technical_skill_formset.management_form }}
+          <div id="technical-skill-formset" class="mb-3">
+            {% for form in technical_skill_formset %}
+              <div class="formset-item">
+                {{ form.id }}
+                {{ form.as_table }}              
+              </div>
+            {% endfor %}
+          </div>
+          <button type="submit" name="action" value="add" id="add-technical-skill-form" class="btn btn-secondary">Update Technical Skill</button>
+        </div>
+      </div>
+
+      {% comment %} Soft Skill Formset {% endcomment %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="text-center mb-3 underline">Soft Skills</h3>
+          {{ soft_skill_formset.management_form }}
+          <div id="soft-skill-formset" class="mb-3">
+            {% for form in soft_skill_formset %}
+              <div class="formset-item">
+                {{ form.id }}
+                {{ form.as_table }}              
+              </div>
+            {% endfor %}
+          </div>
+          <button type="submit" name="action" value="add" id="add-soft-skill-form" class="btn btn-secondary">Update Soft Skill</button>
+        </div>
+      </div>
+
+      {% comment %} Certification Formset {% endcomment %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="text-center mb-3 underline">Certifications</h3>
+          {{ certification_formset.management_form }}
+          <div id="certification-formset" class="mb-3">
+            {% for form in certification_formset %}
+              <div class="formset-item">
+                {{ form.id }}
+                {{ form.as_table }}              
+              </div>
+            {% endfor %}
+          </div>
+          <button type="submit" name="action" value="add" id="add-certification-form" class="btn btn-secondary">Update Certification</button>
+        </div>
+      </div>
+
+      {% comment %} Language Known Formset {% endcomment %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="text-center mb-3 underline">Languages Known</h3>
+          {{ language_formset.management_form }}
+          <div id="language-formset" class="mb-3">
+            {% for form in language_formset %}
+              <div class="formset-item">
+                {{ form.id }}
+                {{ form.as_table }}
+              </div>
+            {% endfor %}
+          </div>
+          <button type="submit" name="action" value="add" id="add-language-form" class="btn btn-secondary">Update Language Known</button>
+        </div>
+      </div>
+
+      {% comment %} Reference Formset {% endcomment %}
+      <div class="card mb-4">
+        <div class="card-body">
+          <h3 class="text-center mb-3 underline">References</h3>
+          {{ reference_formset.management_form }}
+          <div id="reference-formset" class="mb-3">
+            {% for form in reference_formset %}
+              <div class="formset-item">
+                {{ form.id }}
+                {{ form.as_table }}              
+              </div>
+            {% endfor %}
+          </div>
+          <button type="submit" name="action" value="add" id="add-reference-form" class="btn btn-secondary">Update Reference</button>
+        </div>
+      </div>
+
+      <button type="submit" name="action" value="save_and_continue" class="btn btn-primary mt-4">Save and Continue</button>
+    </form>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.2.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  {% comment %} <script src="{% static 'js/jquery.formset.js' %}"></script> {% endcomment %}
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      function addFormset(formsetId, addButtonId) {
+          const formset = document.getElementById(formsetId);
+          const addButton = document.getElementById(addButtonId);
+  
+          addButton.addEventListener('click', function () {
+              const totalFormsInput = formset.querySelector('input[name$="-TOTAL_FORMS"]');
+              const currentTotalForms = parseInt(totalFormsInput.value);
+              const newForm = formset.children[0].cloneNode(true);
+  
+              newForm.innerHTML = newForm.innerHTML.replace(/-(\d+|__prefix__)-/g, `-${currentTotalForms}-`);
+              totalFormsInput.value = currentTotalForms + 1;
+  
+              // Clear values in the new form
+              newForm.querySelectorAll('input, select, textarea').forEach(function (input) {
+                  input.value = '';
+              });
+  
+              formset.appendChild(newForm);
+          });
+  
+          // Setup delete buttons for the formset
+          formset.addEventListener('change', function (event) {
+              const deleteCheckbox = event.target.closest('.formset-item').querySelector('input[name$="-DELETE"]');
+              if (deleteCheckbox) {
+                  handleDeleteCheckbox(deleteCheckbox, formset);
+              }
+          });
+      }
+  
+      function handleDeleteCheckbox(deleteCheckbox, formset) {
+        const totalFormsInput = formset.querySelector('input[name$="-TOTAL_FORMS"]');
+        
+        // Additional check to ensure totalFormsInput is not null or undefined
+        if (!totalFormsInput) {
+            console.error('Error: Could not find the input with name ending in "-TOTAL_FORMS"');
+            return;
+        }
+    
+        const currentTotalForms = parseInt(totalFormsInput.value);
+    
+        // Additional check to ensure totalFormsInput is an input field
+        if (totalFormsInput.tagName.toLowerCase() !== 'input' || totalFormsInput.type.toLowerCase() !== 'hidden') {
+            console.error('Error: The selected element is not a hidden input field');
+            return;
+        }
+    
+        // Debugging output
+        console.log('totalFormsInput:', totalFormsInput);
+        console.log('currentTotalForms:', currentTotalForms);
+    
+        if (deleteCheckbox.checked && currentTotalForms > 1) {
+            // If the delete button is checked and there is more than one form, remove the form
+            const formsetItem = deleteCheckbox.closest('.formset-item');
+            if (formsetItem) {
+                formsetItem.remove();
+    
+                // Update the total forms count
+                totalFormsInput.value = currentTotalForms - 1;
+            }
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function () {
+        // ... (the rest of your code)
+    });
+    
+  
+      // Call the addFormset function for each formset
+      addFormset('education-formset', 'add-education-form');
+      addFormset('experience-formset', 'add-experience-form');
+      // Add other formsets as needed
+  });
+  
+  </script>
+  
+  
+
+  <style>
+    .underline {
+      text-decoration: underline;
+    }
+  </style>
+{% endblock %}

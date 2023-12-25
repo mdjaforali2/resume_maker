@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user_info.first_name }} {{ user_info.last_name }} - Resume</title>
+    <link rel="icon" href="path/to/favicon.ico" type="image/x-icon">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 30px;
+            background-color: #f5f5f5;
+            color: #333;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            margin: 0;
+            font-size: 36px;
+            color: #3498db;
+        }
+
+        span {
+            display: block;
+            font-size: 18px;
+            color: #555;
+            margin-top: 8px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-section1 {
+            flex: 1;
+            text-align: right;
+        }
+
+        .header-section {
+            flex: 1;
+            text-align: left;
+        }
+
+        .contact-info p {
+            margin: 10px 0;
+            font-size: 16px;
+            color: #555;
+            text-align: center;
+        }
+
+        .contact-info p a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .contact-info p a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 2px solid #3498db;
+            padding: 0;
+        }
+
+        .section-title {
+            color: #3498db;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        p {
+            margin: 10px 0;
+            font-size: 14px;
+            color: #777;
+        }
+
+        h3 {
+            margin-bottom: 10px;
+        }
+
+        .certifications p i a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .certifications p i a:hover {
+            text-decoration: underline;
+        }
+
+        .references ul p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h2>{{ user_info.first_name }} {{ user_info.last_name }}</h2>
+            <span>{{ user_info.job_title }}</span>
+        </header>
+        <div class="header-section1 contact-info">
+            <section>
+                <p>
+                    {% if user_info.address %}
+                        <a href="https://www.google.com/maps?q={{ user_info.address }}, {{ user_info.city }}, {{ user_info.post_code }}" target="_blank">
+                            {{ user_info.address }}, {{ user_info.city }}, {{ user_info.post_code }}
+                        </a>
+                        <br>
+                    {% endif %}
+                    {% if user_info.linkedin_profile %}<a href="{{ user_info.linkedin_profile }}" target="_blank">LinkedIn</a> |{% endif %}
+                    {% if user_info.portfolio_website %}<a href="{{ user_info.portfolio_website }}" target="_blank">Portfolio</a> |{% endif %}
+                    {% if user_info.github_profile %}<a href="{{ user_info.github_profile }}" target="_blank">GitHub</a><br>{% endif %}
+                    <a href="mailto:{{ user_info.email }}">{{ user_info.email }}</a> |
+                    {% if user_info.phone_number %}
+                        <a href="tel:{{ user_info.phone_number}}">{{ user_info.phone_number }}</a> <br>
+                    {% endif %}
+                </p>
+            </section>
+        </div>
+    </div>
+
+    <hr>
+
+
+    <div class="header-section">
+        <section class="career-objective">
+            <h3>Professional Summary</h3>
+            {% if user_info.professional_summary %}<p>{{ user_info.professional_summary }}</p>{% endif %}
+        </section>
+    </div>
+
+    <hr>
+
+    <div class="header-section">
+        <section class="education">
+            <h3 class="section-title">Education</h3>
+            <ul>
+                {% for education in user_info.educations.all %}
+                    <li>
+                        {{ education.degree }} at <b>{{ education.institution }}</b> ({{ education.graduation_year }})
+                        {% if education.gpa_obtained and education.gpa_total %}
+                            - GPA: {{ education.gpa_obtained }}/{{ education.gpa_total }}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+    <hr>
+
+    <div class="header-section">
+        <section class="experience">
+            <h3 class="section-title">Work Experience</h3>
+            <ul>
+                {% for experience in user_info.experiences.all %}
+                    <li>
+                        {{ experience.title }} at <b>{{ experience.company}}</b>{% if experience.city and experience.country %}, {{experience.city }}, {{ experience.country }}
+                        {% endif %}
+                        ({{ experience.start_date }} - {{ experience.end_date }})
+                        <i>{% if experience.description %}<p>{{ experience.description }}</p>{% endif %}</i>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+    <hr>
+
+    <div class="header-section">
+        <section class="skills">
+            <h3 class="section-title">Technical Skills</h3>
+            <i><p>{% if user_info.technical_skills.all %}{{ user_info.technical_skills.all | join:", " }}{% endif %}<p></i>
+        </section>
+    </div>
+
+    <hr>
+
+    <div class="header-section">
+        <section class="skills">
+            <h3 class="section-title">Soft Skills</h3>
+            <i><p>{% if user_info.soft_skills.all %}{{ user_info.soft_skills.all | join:", " }}{% endif %}</P></i>
+        </section>
+    </div>
+
+    <hr>
+
+    <div class="header-section certifications">
+        <section>
+            <h3 class="section-title">Certifications</h3>
+            <p>
+                {% for certification in user_info.certifications.all %}
+                    <i><a href="{{ certification.url }}" target="_blank">{{ certification.name }}</a>{% if not forloop.last %}, {% endif %}</i>
+                {% endfor %}
+            </p>
+        </section>
+    </div>
+
+    <hr>
+
+    <p><b>Languages:</b> {% if user_info.languages_known.all %}{{ user_info.languages_known.all | join:", " }}{% endif %}</p>
+
+    <hr>
+
+    <div class="header-section references">
+        <section>
+            <h3 class="section-title">References</h3>
+            <ul>
+                {% for reference in user_info.references.all %}
+                    {% if reference.name or reference.email or reference.phone_number %}
+                        <p>
+                            Name: {% if reference.name %}{{ reference.name }}{% endif %},
+                            Email: {% if reference.email %}{{ reference.email }}{% endif %}
+                        </p>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+
+</body>
+</html>

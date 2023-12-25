@@ -1,0 +1,55 @@
+<!-- resume_app/format_selection.html -->
+
+{% extends 'resume_app/base.html' %}
+
+{% block title %}Preview and Download{% endblock %}
+
+{% load static %}
+{% block content %}
+    <section class="format-section">
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h2 class="text-center mb-4">Select Format, Preview and Download</h2>
+                    <hr>
+                    {% for format in resume_formats %}
+                        {% if forloop.counter0|divisibleby:2 %}
+                            </div><div class="row justify-content-center">
+                        {% endif %}
+                        <div class="col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-header bg-primary text-white text-center">
+                                    {{ format.name }}
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <p class="text-muted mb-3">To Download PDF, click Preview and then use Ctrl + P</p>
+                                        <a href="{% url 'preview_format' user_info.id format.id %}" class="btn btn-success btn-preview">Preview</a>                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function downloadPdf(formatId) {
+            // Construct the URL for the generate_pdf view
+            const url = `/generate_pdf/${user_info.id}/${formatId}/`;
+
+            // Open a new window with the URL
+            const newWindow = window.open(url, '_blank');
+
+            // Check if the new window is opened
+            if (newWindow) {
+                // Wait for a short time and then close the window
+                setTimeout(() => newWindow.print(), 500);
+            } else {
+                alert('Pop-up blocker is preventing the download. Please allow pop-ups for this site.');
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'resume_app/base.html' %}
+
+{% block title %}Welcome to Professional Resume Builder{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        .hero, .features {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 20px 0;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero {
+            background-color: #ecf0f1;
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        .btn-primary, .fa {
+            color: #3498db;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .btn-primary:hover, .fa:hover {
+            color: #2980b9;
+        }
+    </style>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Welcome to Professional Resume Builder</h1>
+            <p>Create a standout resume effortlessly with our user-friendly application.</p>
+            <a href="{% url 'input_info' %}" class="btn btn-secondary">Get Started</a>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2>Key Features</h2>
+            <div class="feature">
+
+                <h3>Easy Editing</h3><i class="fas fa-edit"></i>
+                <p>Effortlessly input and edit your information with our intuitive form.</p>
+            </div>
+            <div class="feature">
+                <h3>Multiple Formats</h3><i class="fas fa-file"></i>
+                <p>Choose from a variety of professional resume formats tailored to your needs.</p>
+            </div>
+            <div class="feature">
+                <h3>Instant Download</h3><i class="fas fa-download"></i>
+                <p>Download your polished resume in PDF format with just one click.</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user_info.first_name }} {{ user_info.last_name }} - Resume</title>
+</head>
+<body>
+
+    <header>
+        <h2>{{ user_info.first_name }} {{ user_info.last_name }}</h2>
+        <span>{{ user_info.job_title }}</span>
+    </header>
+
+    <section class="contact-info">
+        <p>
+            {% if user_info.address %}
+                <span>&#127968;</span>
+                <a href="https://www.google.com/maps?q={{ user_info.address }}, {{ user_info.city }}, {{ user_info.post_code }}" target="_blank">
+                    {{ user_info.address }}, {{ user_info.city }}, {{ user_info.post_code }}
+                </a><br>
+            {% endif %}
+            {% if user_info.linkedin_profile %}<span class="linkedin-favicon"></span> <a href="{{ user_info.linkedin_profile }}" target="_blank">LinkedIn</a> |{% endif %}
+            {% if user_info.portfolio_website %}<span class="portfolio-favicon"></span> <a href="{{ user_info.portfolio_website }}" target="_blank">Portfolio</a> |{% endif %}
+            {% if user_info.github_profile %}<span class="github-favicon"></span> <a href="{{ user_info.github_profile }}" target="_blank">GitHub</a><br>{% endif %}
+            <span class="email-favicon">&#9993;</span><a href="mailto:{{ user_info.email }}">{{ user_info.email }}</a> |
+            {% if user_info.phone_number %}
+                <span class="phone-favicon">&#9742;</span>
+                <a href="tel:{{ user_info.phone_number}}">{{ user_info.phone_number }}</a> <br>
+            {% endif %}
+        </p>
+    </section>
+
+    <hr>
+
+    <section class="career-objective">
+        <h3>Professional Summary</h3>
+        {% if user_info.professional_summary %}<p>{{ user_info.professional_summary }}</p>{% endif %}
+    </section>
+
+    <hr>
+
+    <section class="education">
+        <h3 class="section-title">Education</h3>
+        <ul>
+            {% for education in user_info.educations.all %}
+                <li>
+                    {{ education.degree }} at <b>{{ education.institution }}</b> ({{ education.graduation_year }})
+                    {% if education.gpa_obtained and education.gpa_total %}
+                        - GPA: {{ education.gpa_obtained }}/{{ education.gpa_total }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <hr>
+
+    <section class="experience">
+        <h3 class="section-title">Work Experience</h3>
+        <ul>
+            {% for experience in user_info.experiences.all %}
+                <li>
+                    {{ experience.title }} at <b>{{ experience.company}}</b>{% if experience.city and experience.country %}, {{experience.city }}, {{ experience.country }}
+                    {% endif %}
+                    ({{ experience.start_date }} - {{ experience.end_date }})
+                    <i>{% if experience.description %}<p>{{ experience.description }}</p>{% endif %}</i>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <hr>
+
+    <section class="technical-skills">
+        <h3 class="section-title">Technical Skills</h3>
+        <p>{% if user_info.technical_skills.all %}{{ user_info.technical_skills.all | join:", " }}{% endif %}</p>
+    </section>
+
+    <hr>
+
+    <section class="soft-skills">
+        <h3 class="section-title">Soft Skills</h3>
+        <p>{% if user_info.soft_skills.all %}{{ user_info.soft_skills.all | join:", " }}{% endif %}</p>
+    </section>
+
+    <hr>
+
+    <section class="certifications">
+        <h3 class="section-title">Certifications</h3>
+        <p>
+            {% for certification in user_info.certifications.all %}
+                <i><a href="{{ certification.url }}" target="_blank">{{ certification.name }}</a>{% if not forloop.last %}, {% endif %}</i>
+            {% endfor %}
+        </p>
+    </section>
+
+    <hr>
+
+    <p><b>Languages:</b> {% if user_info.languages_known.all %}{{ user_info.languages_known.all | join:", " }}{% endif %}</p>
+
+    <hr>
+
+    <section class="references">
+        <h3 class="section-title">References</h3>
+        <ul>
+            {% for reference in user_info.references.all %}
+                {% if reference.name or reference.email or reference.phone_number %}
+                    <li>
+                        Name: {% if reference.name %}{{ reference.name }}{% endif %},
+                        Email: {% if reference.email %}{{ reference.email }}{% endif %}
+                        {% comment %} Phone: {% if reference.phone_number %}{{ reference.phone_number }}{% endif %} {% endcomment %}
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </section>
+
+</body>
+</html>

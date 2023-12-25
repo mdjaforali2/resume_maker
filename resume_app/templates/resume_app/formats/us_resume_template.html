@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user_info.first_name }} {{ user_info.last_name }} - Resume</title>
+    <link rel="icon" href="path/to/favicon.ico" type="image/x-icon"> <!-- Replace with the path to your favicon -->
+    <style>
+        body {
+            font-family: 'Helvetica', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 800px;
+            padding: 30px;
+            background-color: #f9f9f9;
+            color: #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 36px;
+            color: #333;
+        }
+
+        h2 {
+            margin: 5px 0 10px;
+            font-size: 24px;
+            color: #555;
+        }
+
+        .job-title {
+            font-size: 18px;
+            color: #666;
+        }
+
+        .contact-info {
+            margin-top: 20px;
+        }
+
+        p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #666;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        hr {
+            margin: 20px 0;
+            border: none;
+            border-top: 1px solid #ccc;
+            padding: 0;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            color: #555;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .skills p {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .certifications p {
+            margin: 0;
+        }
+
+        .references ul {
+            padding-left: 0;
+        }
+
+        .references p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>{{ user_info.first_name }} {{ user_info.last_name }}</h1>
+        <h2 class="job-title">{{ user_info.job_title }}</h2>
+    </header>
+
+    <div class="contact-info">
+        <p>Email: <a href="mailto:{{ user_info.email }}">{{ user_info.email }}</a></p>
+        {% if user_info.phone_number %}
+            <p>Phone: <a href="tel:{{ user_info.phone_number }}">{{ user_info.phone_number }}</a></p>
+        {% endif %}
+        {% if user_info.address %}
+            <p>Address: {{ user_info.address }}, {{ user_info.city }}, {{ user_info.post_code }}</p>
+        {% endif %}
+        {% if user_info.linkedin_profile %}<p>LinkedIn: <a href="{{ user_info.linkedin_profile }}" target="_blank">{{ user_info.linkedin_profile }}</a></p>{% endif %}
+        {% if user_info.portfolio_website %}<p>Portfolio: <a href="{{ user_info.portfolio_website }}" target="_blank">{{ user_info.portfolio_website }}</a></p>{% endif %}
+        {% if user_info.github_profile %}<p>GitHub: <a href="{{ user_info.github_profile }}" target="_blank">{{ user_info.github_profile }}</a></p>{% endif %}
+    </div>
+
+    <hr>
+
+    <div class="section">
+        <h2 class="section-title">Professional Summary</h2>
+        {% if user_info.professional_summary %}<p>{{ user_info.professional_summary }}</p>{% endif %}
+    </div>
+
+    <hr>
+
+    <div class="section">
+        <h2 class="section-title">Education</h2>
+        <ul>
+            {% for education in user_info.educations.all %}
+                <li>
+                    {{ education.degree }} at <b>{{ education.institution }}</b> ({{ education.graduation_year }})
+                    {% if education.gpa_obtained and education.gpa_total %}
+                        - GPA: {{ education.gpa_obtained }}/{{ education.gpa_total }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="section">
+        <h2 class="section-title">Work Experience</h2>
+        <ul>
+            {% for experience in user_info.experiences.all %}
+                <li>
+                    {{ experience.title }} at <b>{{ experience.company}}</b>{% if experience.city and experience.country %}, {{experience.city }}, {{ experience.country }}{% endif %}
+                    ({{ experience.start_date }} - {{ experience.end_date }})
+                    <i>{% if experience.description %}<p>{{ experience.description }}</p>{% endif %}</i>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <hr>
+
+    <div class="section skills">
+        <h2 class="section-title">Technical Skills</h2>
+        <p>{% if user_info.technical_skills.all %}{{ user_info.technical_skills.all | join:", " }}{% endif %}</p>
+    </div>
+
+    <hr>
+
+    <div class="section skills">
+        <h2 class="section-title">Soft Skills</h2>
+        <p>{% if user_info.soft_skills.all %}{{ user_info.soft_skills.all | join:", " }}{% endif %}</p>
+    </div>
+
+    <hr>
+
+    <div class="section certifications">
+        <h2 class="section-title">Certifications</h2>
+        <p>
+            {% for certification in user_info.certifications.all %}
+                <a href="{{ certification.url }}" target="_blank">{{ certification.name }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </p>
+    </div>
+
+    <hr>
+
+    <div class="section">
+        <h2 class="section-title">Languages</h2>
+        <p>{% if user_info.languages_known.all %}{{ user_info.languages_known.all | join:", " }}{% endif %}</p>
+    </div>
+
+    <hr>
+
+    <div class="section references">
+        <h2 class="section-title">References</h2>
+        <ul>
+            {% for reference in user_info.references.all %}
+                {% if reference.name or reference.email %}
+                    <p>
+                        Name: {% if reference.name %}{{ reference.name }}{% endif %},
+                        Email: {% if reference.email %}{{ reference.email }}{% endif %}
+                    </p>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>

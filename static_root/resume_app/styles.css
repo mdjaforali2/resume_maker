@@ -1,0 +1,45 @@
+/* styles.css */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.form-section {
+    padding: 50px 0;
+}
+
+.resume-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.resume-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.resume-form input,
+.resume-form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.resume-form button {
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.resume-form button:hover {
+    background-color: #2980b9;
+}
